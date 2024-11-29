@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -27,7 +27,45 @@ export default function Home() {
   const { dispatch } = useCart();
   const { toast } = useToast();
 
-  const handleAddToCart = (product: any) => {
+  const handleAddToCart = async (product: any, cardElement: HTMLElement) => {
+    // Obtener la posición del carrito
+    const cartIcon = document.getElementById('cart-icon');
+    if (!cartIcon || !cardElement) return;
+
+    const cartRect = cartIcon.getBoundingClientRect();
+    const cardRect = cardElement.getBoundingClientRect();
+
+    // Crear un clon de la tarjeta para la animación
+    const clone = cardElement.cloneNode(true) as HTMLElement;
+    clone.style.position = 'fixed';
+    clone.style.top = `${cardRect.top}px`;
+    clone.style.left = `${cardRect.left}px`;
+    clone.style.width = `${cardRect.width}px`;
+    clone.style.height = `${cardRect.height}px`;
+    clone.style.zIndex = '50';
+    clone.style.transition = 'all 0.5s ease-in-out';
+    clone.style.pointerEvents = 'none';
+
+    document.body.appendChild(clone);
+
+    // Animar el clon
+    setTimeout(() => {
+      clone.style.transform = `
+        translate(
+          ${cartRect.left - cardRect.left + (cartRect.width - cardRect.width) / 2}px,
+          ${cartRect.top - cardRect.top + (cartRect.height - cardRect.height) / 2}px
+        ) 
+        scale(0.1)
+      `;
+      clone.style.opacity = '0';
+    }, 0);
+
+    // Eliminar el clon después de la animación
+    setTimeout(() => {
+      clone.remove();
+    }, 500);
+
+    // Agregar al carrito y mostrar toast
     dispatch({
       type: 'ADD_TO_CART',
       payload: {
@@ -45,7 +83,7 @@ export default function Home() {
     });
   };
 
-  const featuredProducts = products.slice(0, 30); // Muestra los primeros 4 productos como destacados
+  const featuredProducts = products.slice(0, 6); // Muestra los primeros 4 productos como destacados
 
   return (
     <div className="space-y-8">
@@ -60,6 +98,7 @@ export default function Home() {
           src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=1600&h=600&fit=crop"
           alt="Hero Background"
           fill
+          sizes="100vw"
           className="object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black to-transparent z-10" />
@@ -122,18 +161,25 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="bg-white rounded-xl shadow-lg overflow-hidden"
+              className="bg-white rounded-xl shadow-lg overflow-hidden product-card relative transform transition-transform duration-300 hover:scale-105 group"
+              style={{ transformOrigin: 'center center' }}
             >
-              <div className="relative h-48">
+              <div className="relative h-48 overflow-hidden">
                 <Image
                   src={product.image}
                   alt={product.name}
                   fill
-                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-110 group-hover:brightness-110"
                 />
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-0 hover:opacity-30 transition-opacity duration-500 pointer-events-none"></div>
               </div>
               <div className="p-4">
-                <h3 className="text-xl font-semibold mb-2">{product.name}</h3>
+                <h3 className="text-xl font-semibold mb-2">
+                  <Link href={`/producto/${product.id}`} className="hover:underline">
+                    {product.name}
+                  </Link>
+                </h3>
                 <p className="text-gray-600 mb-4">{product.description}</p>
                 <div className="flex justify-between items-center">
                   <span className="text-xl font-bold">${product.price}</span>
@@ -150,7 +196,13 @@ export default function Home() {
                     <Button
                       size="icon"
                       variant="ghost"
-                      onClick={() => handleAddToCart(product)}
+                      onClick={(e) => {
+                        const target = e.target as Element;
+                        const card = target.closest('.product-card');
+                        if (card) {
+                          handleAddToCart(product, card);
+                        }
+                      }}
                       className="hover:bg-blue-100 transition-colors"
                     >
                       <ShoppingCart className="h-5 w-5" />

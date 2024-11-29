@@ -6,11 +6,13 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useCart } from '@/context/CartContext';
 import { useToast } from '@/components/ui/use-toast';
+import { useRouter } from 'next/navigation';
 import { products } from '@/data/products';
 
 export default function ProductPage({ params }: { params: { id: string } }) {
   const { dispatch } = useCart();
   const { toast } = useToast();
+  const router = useRouter();
   const product = products.find(p => p.id === params.id);
   if (!product) return <div>Producto no encontrado</div>;
 
@@ -39,21 +41,25 @@ export default function ProductPage({ params }: { params: { id: string } }) {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 1 }}
         className="grid grid-cols-1 md:grid-cols-2 gap-8"
       >
         {/* Galería de imágenes */}
         <div className="space-y-4">
           <motion.div
-            className="relative h-[400px] rounded-lg overflow-hidden"
+            key={selectedImage}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1 }}
+            className="relative h-96"
           >
             <Image
               src={selectedImage}
               alt={product.name}
               fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              priority
               className="object-cover"
             />
           </motion.div>
@@ -72,6 +78,8 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                   fill
                   src={img}
                   alt={`${product.name} view ${index + 1}`}
+                  sizes="(max-width: 768px) 33vw, 11vw"
+                  priority
                   className="object-cover"
                 />
               </motion.div>
@@ -84,7 +92,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
           className="space-y-6"
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.3 }}
+          transition={{ delay: 0.3, duration: 1 }}
         >
           <div>
             <h1 className="text-3xl font-bold">{product.name}</h1>
@@ -111,12 +119,24 @@ export default function ProductPage({ params }: { params: { id: string } }) {
 
           <div className="space-y-4">
             <div className="flex gap-4">
-              <Button size="lg" onClick={handleAddToCart} className="flex-1">
+              <motion.button
+                whileHover={{ backgroundColor: '#1e40af', color: '#ffffff' }}
+                whileTap={{ scale: 0.9 }}
+                onClick={handleAddToCart}
+                className="bg-blue-600 text-white px-4 py-2 rounded-lg flex-1 transition-colors"
+              >
                 Añadir al Carrito
-              </Button>
-              <Button size="lg" variant="outline">
+              </motion.button>
+              <motion.button
+                whileHover={{ backgroundColor: '#1c64f2', color: '#ffffff' }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => {
+                  router.push('/checkout');
+                }}
+                className="bg-blue-700 text-white px-4 py-2 rounded-lg flex-1 transition-colors shadow-lg"
+              >
                 Comprar Ahora
-              </Button>
+              </motion.button>
             </div>
             
             <Card>
@@ -139,7 +159,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
         className="mt-16"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
+        transition={{ delay: 0.5, duration: 1 }}
       >
         <h2 className="text-2xl font-bold mb-6">Productos Relacionados</h2>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">

@@ -3,12 +3,13 @@
 import React from 'react';
 import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
+import Logo from '@/components/Logo';
 
 function CartLink() {
   const { state } = useCart();
   
   return (
-    <Link href="/carrito" className="relative">
+    <Link href="/carrito" className="relative" id="cart-icon">
       <span className="text-lg">🛒</span>
       {state.itemCount > 0 && (
         <span className="absolute -top-2 -right-2 bg-blue-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
@@ -23,13 +24,17 @@ function Header() {
   return (
     <header className="bg-white shadow-sm">
       <div className="container mx-auto px-6">
-        <div className="flex justify-between items-center h-16">
-          <Link href="/" className="text-xl font-bold">
-            TechStore
-          </Link>
+        <div className="flex justify-between items-center h-20">
+          <Logo className="h-12" />
           <nav className="space-x-6">
-            <Link href="/productos" className="hover:text-blue-600">
+            <Link href="/" className="hover:text-primary">
+              Inicio
+            </Link>
+            <Link href="/productos" className="hover:text-primary">
               Productos
+            </Link>
+            <Link href="/categorias" className="hover:text-primary">
+              Categorías
             </Link>
             <CartLink />
           </nav>
@@ -54,7 +59,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
             <div>
               <h3 className="font-bold mb-4">Sobre Nosotros</h3>
               <p className="text-gray-600">
-                TechStore es tu tienda de confianza para productos tecnológicos.
+                Digilap es tu tienda de confianza para productos tecnológicos.
               </p>
             </div>
             <div>
@@ -75,7 +80,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
             <div>
               <h3 className="font-bold mb-4">Contacto</h3>
               <p className="text-gray-600">
-                Email: info@techstore.com<br />
+                Email: info@digilap.com<br />
                 Teléfono: (123) 456-7890
               </p>
             </div>

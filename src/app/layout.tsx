@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import Head from 'next/head';
 import { CartProvider } from '../context/CartContext';
 import { Toaster } from "@/components/ui/toaster";
 import ClientLayout from '@/components/ClientLayout';
@@ -19,6 +20,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
+      <head>
+        <link rel="icon" href="/digilap.png" type="image/png" />
+      </head>
       <body className={inter.className}>
         <CartProvider>
           <ClientLayout>

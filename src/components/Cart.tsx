@@ -21,12 +21,12 @@ const Cart: React.FC = () => {
     dispatch({ type: 'REMOVE_FROM_CART', payload: { id: productId } });
   };
 
-  const total = state.products.reduce(
+  const total = state.items.reduce(
     (sum, product) => sum + product.price * product.quantity,
     0
   );
 
-  if (state.products.length === 0) {
+  if (state.items.length === 0) {
     return (
       <div className="text-center py-8">
         <h2 className="text-2xl font-semibold mb-4">Tu carrito está vacío</h2>
@@ -40,7 +40,7 @@ const Cart: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {state.products.map((product) => (
+      {state.items.map((product) => (
         <motion.div
           key={product.id}
           initial={{ opacity: 0, y: 20 }}

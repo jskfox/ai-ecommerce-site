@@ -3,6 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '@/context/CartContext';
 import { Button } from '@/components/ui/button';
@@ -11,6 +12,7 @@ import { useToast } from '@/components/ui/use-toast';
 export default function CartPage() {
   const { state, dispatch } = useCart();
   const { toast } = useToast();
+  const router = useRouter();
 
   const handleUpdateQuantity = (id: string | number, newQuantity: number) => {
     dispatch({
@@ -44,6 +46,18 @@ export default function CartPage() {
       title: "Carrito vaciado",
       description: "Se han eliminado todos los productos del carrito",
     });
+  };
+
+  const handleProceedToCheckout = () => {
+    if (state.items.length === 0) {
+      toast({
+        title: "Carrito vacío",
+        description: "Agrega productos al carrito antes de proceder al pago",
+        variant: "destructive",
+      });
+      return;
+    }
+    router.push('/checkout');
   };
 
   if (state.items.length === 0) {
@@ -103,6 +117,7 @@ export default function CartPage() {
                       src={item.image}
                       alt={item.name}
                       fill
+                      sizes="(max-width: 768px) 96px, 96px"
                       className="object-cover rounded"
                     />
                   </div>
@@ -186,7 +201,11 @@ export default function CartPage() {
                 </div>
               </div>
 
-              <Button className="w-full" size="lg">
+              <Button 
+                className="w-full" 
+                size="lg"
+                onClick={handleProceedToCheckout}
+              >
                 Proceder al Pago
               </Button>
 
