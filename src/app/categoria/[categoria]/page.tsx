@@ -251,7 +251,7 @@ export default function CategoryPage({ params }: { params: { categoria: string }
                       src={product.image}
                       alt={product.name}
                       fill
-                      sizes="(max-width: 768px) 100vw, 33vw"
+                      sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover"
                     />
                   </div>

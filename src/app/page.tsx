@@ -169,7 +169,7 @@ export default function Home() {
                   src={product.image}
                   alt={product.name}
                   fill
-                  sizes="(max-width: 768px) 100vw, 33vw"
+                  sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-110 group-hover:brightness-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-0 hover:opacity-30 transition-opacity duration-500 pointer-events-none"></div>

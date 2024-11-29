@@ -33,7 +33,7 @@ export const OrderSummary = ({ items, total }: OrderSummaryProps) => {
                   src={item.image}
                   alt={item.name}
                   fill
-                  sizes="(max-width: 768px) 100vw, 16vw"
+                  sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover rounded-md"
                 />
               </div>

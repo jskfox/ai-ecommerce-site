@@ -58,8 +58,8 @@ export default function ProductPage({ params }: { params: { id: string } }) {
               src={selectedImage}
               alt={product.name}
               fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              priority
+              sizes="(max-width: 768px) 100vw, 50vw"
+              priority={true}
               className="object-cover"
             />
           </motion.div>

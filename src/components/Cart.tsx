@@ -55,6 +55,7 @@ const Cart: React.FC = () => {
                 alt={product.name}
                 width={80}
                 height={80}
+                sizes="(max-width: 768px) 100vw, 50vw"
                 className="rounded-md"
               />
             )}

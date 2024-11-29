@@ -117,7 +117,7 @@ export default function CartPage() {
                       src={item.image}
                       alt={item.name}
                       fill
-                      sizes="(max-width: 768px) 96px, 96px"
+                      sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover rounded"
                     />
                   </div>
