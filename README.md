@@ -6,6 +6,10 @@
 
 Este proyecto es un sitio de comercio electrónico basico desarrollado íntegramente con herramientas de inteligencia artificial en la plataforma Windsurf. No se escribió código manualmente; en su lugar, se utilizaron instrucciones y prompts para guiar el desarrollo del proyecto.
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/jskfox/ai-ecommerce-site/refs/heads/dev/public/sitescreenshot.png" alt="Screenshot del sitio" width="100%" />
+</p>
+
 ## Características Principales
 
 - **Categorización de Productos**: Utilizamos la inteligencia artificial para clasificar los productos en categorías relevantes.
