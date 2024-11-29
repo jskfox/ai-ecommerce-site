@@ -1,9 +1,11 @@
 'use client';
-
+import React from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { useCart } from '@/context/CartContext';
+import { useToast } from '@/components/ui/use-toast';
 
 // Simulación de datos del producto
 const getProductData = (id: string) => {
@@ -44,8 +46,28 @@ const getProductData = (id: string) => {
 };
 
 export default function ProductPage({ params }: { params: { id: string } }) {
+  const { dispatch } = useCart();
+  const { toast } = useToast();
   const product = getProductData(params.id);
   const [selectedImage, setSelectedImage] = React.useState(product.images[0]);
+
+  const handleAddToCart = () => {
+    dispatch({ 
+      type: 'ADD_TO_CART',
+      payload: {
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.image,
+        description: product.description
+      }
+    });
+
+    toast({
+      title: "Producto agregado",
+      description: `${product.name} se ha agregado al carrito`,
+    });
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -82,9 +104,9 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                 onClick={() => setSelectedImage(img)}
               >
                 <Image
+                  fill
                   src={img}
                   alt={`${product.name} view ${index + 1}`}
-                  fill
                   className="object-cover"
                 />
               </motion.div>
@@ -124,7 +146,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
 
           <div className="space-y-4">
             <div className="flex gap-4">
-              <Button size="lg" className="flex-1">
+              <Button size="lg" onClick={handleAddToCart} className="flex-1">
                 Añadir al Carrito
               </Button>
               <Button size="lg" variant="outline">

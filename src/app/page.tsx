@@ -2,6 +2,10 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { useCart } from '@/context/CartContext';
+import { useToast } from '@/components/ui/use-toast';
 
 const products = [
   {
@@ -69,6 +73,27 @@ const staggerContainer = {
 };
 
 export default function Home() {
+  const { dispatch } = useCart();
+  const { toast } = useToast();
+
+  const handleAddToCart = (product: any) => {
+    dispatch({
+      type: 'ADD_TO_CART',
+      payload: {
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.image,
+        description: product.description
+      }
+    });
+    
+    toast({
+      title: "Producto agregado",
+      description: `${product.name} se ha agregado al carrito`,
+    });
+  };
+
   return (
     <div className="space-y-8">
       {/* Hero Section */}
@@ -94,13 +119,11 @@ export default function Home() {
           <div className="text-white max-w-2xl">
             <h1 className="text-4xl font-bold mb-4">Las mejores ofertas en tecnología</h1>
             <p className="text-xl mb-6">Descubre nuestra selección de productos premium a precios increíbles</p>
-            <motion.button 
-              className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Ver Ofertas
-            </motion.button>
+            <Link href="/producto">
+              <Button size="lg">
+                Ver Productos
+              </Button>
+            </Link>
           </div>
         </motion.div>
       </motion.section>
@@ -128,6 +151,7 @@ export default function Home() {
               variants={fadeInUp}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onClick={() => window.location.href = `/categoria/${category.toLowerCase()}`}
             >
               <h3 className="font-semibold">{category}</h3>
             </motion.div>
@@ -135,28 +159,17 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* Featured Products */}
+      {/* Products Section */}
       <section>
-        <motion.h2 
-          className="text-2xl font-bold mb-6"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4 }}
-        >
-          Productos Destacados
-        </motion.h2>
-        <motion.div 
-          className="grid grid-cols-1 md:grid-cols-3 gap-6"
-          variants={staggerContainer}
-          initial="initial"
-          animate="animate"
-        >
+        <h2 className="text-2xl font-bold mb-6">Productos Destacados</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {products.map((product) => (
             <motion.div
               key={product.id}
-              className="bg-white rounded-lg shadow-md overflow-hidden"
-              variants={fadeInUp}
-              whileHover={{ y: -5 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="bg-white rounded-xl shadow-lg overflow-hidden"
             >
               <div className="relative h-48">
                 <Image
@@ -167,22 +180,28 @@ export default function Home() {
                 />
               </div>
               <div className="p-4">
-                <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
+                <h3 className="text-xl font-semibold mb-2">{product.name}</h3>
                 <p className="text-gray-600 mb-4">{product.description}</p>
                 <div className="flex justify-between items-center">
                   <span className="text-xl font-bold">${product.price}</span>
-                  <motion.button 
-                    className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    Añadir al Carrito
-                  </motion.button>
+                  <div className="space-x-2">
+                    <Link href={`/producto/${product.id}`}>
+                      <Button variant="outline" size="sm">
+                        Ver Detalles
+                      </Button>
+                    </Link>
+                    <Button
+                      size="sm"
+                      onClick={() => handleAddToCart(product)}
+                    >
+                      Agregar
+                    </Button>
+                  </div>
                 </div>
               </div>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </section>
 
       {/* Features Section */}
