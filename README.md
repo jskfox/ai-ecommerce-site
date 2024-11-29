@@ -18,6 +18,7 @@ This is a basic e-commerce website developed entirely using artificial intellige
 - **Product Search**: AI helps users find products efficiently.
 - **Shopping Cart**: Users can add and remove products from their shopping cart.
 - **Checkout**: Users can complete the purchase process easily.
+- **Multilingual Support**: The site now supports both English and Spanish languages using `next-intl` for seamless internationalization.
 
 ## AI Assistance
 
