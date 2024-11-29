@@ -22,8 +22,8 @@ function CartLink() {
 function Header() {
   return (
     <header className="bg-white shadow-sm">
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex justify-between items-center">
+      <div className="container mx-auto px-6">
+        <div className="flex justify-between items-center h-16">
           <Link href="/" className="text-xl font-bold">
             TechStore
           </Link>
@@ -43,11 +43,13 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-grow">
-        {children}
+      <main className="flex-grow container mx-auto px-6 py-8">
+        <div className="max-w-7xl mx-auto w-full">
+          {children}
+        </div>
       </main>
-      <footer className="bg-gray-100">
-        <div className="container mx-auto px-4 py-8">
+      <footer className="bg-gray-100 mt-auto">
+        <div className="container mx-auto px-6 py-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
               <h3 className="font-bold mb-4">Sobre Nosotros</h3>

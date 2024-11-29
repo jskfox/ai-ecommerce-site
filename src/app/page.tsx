@@ -6,57 +6,8 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/context/CartContext';
 import { useToast } from '@/components/ui/use-toast';
-
-const products = [
-  {
-    id: 1,
-    name: 'MacBook Pro M2',
-    description: 'La laptop más potente de Apple con el nuevo chip M2',
-    price: 1299.99,
-    image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500&h=400&fit=crop',
-    category: 'Laptops',
-  },
-  {
-    id: 2,
-    name: 'iPhone 15 Pro',
-    description: 'El último iPhone con cámara profesional',
-    price: 999.99,
-    image: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=500&h=400&fit=crop',
-    category: 'Smartphones',
-  },
-  {
-    id: 3,
-    name: 'Sony WH-1000XM4',
-    description: 'Auriculares con cancelación de ruido premium',
-    price: 349.99,
-    image: 'https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=500&h=400&fit=crop',
-    category: 'Auriculares',
-  },
-  {
-    id: 4,
-    name: 'iPad Pro',
-    description: 'Tablet profesional para creativos',
-    price: 799.99,
-    image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=500&h=400&fit=crop',
-    category: 'Tablets',
-  },
-  {
-    id: 5,
-    name: 'Samsung QLED 4K TV',
-    description: 'Smart TV con calidad de imagen excepcional',
-    price: 1499.99,
-    image: 'https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500&h=400&fit=crop',
-    category: 'TVs',
-  },
-  {
-    id: 6,
-    name: 'DJI Mini 3 Pro',
-    description: 'Drone compacto con cámara 4K',
-    price: 749.99,
-    image: 'https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=500&h=400&fit=crop',
-    category: 'Drones',
-  },
-];
+import { products } from '@/data/products';
+import { ShoppingCart } from 'lucide-react';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -93,6 +44,8 @@ export default function Home() {
       description: `${product.name} se ha agregado al carrito`,
     });
   };
+
+  const featuredProducts = products.slice(0, 30); // Muestra los primeros 4 productos como destacados
 
   return (
     <div className="space-y-8">
@@ -163,7 +116,7 @@ export default function Home() {
       <section>
         <h2 className="text-2xl font-bold mb-6">Productos Destacados</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.map((product) => (
+          {featuredProducts.map((product) => (
             <motion.div
               key={product.id}
               initial={{ opacity: 0, y: 20 }}
@@ -184,17 +137,23 @@ export default function Home() {
                 <p className="text-gray-600 mb-4">{product.description}</p>
                 <div className="flex justify-between items-center">
                   <span className="text-xl font-bold">${product.price}</span>
-                  <div className="space-x-2">
+                  <div className="space-x-2 flex items-center">
                     <Link href={`/producto/${product.id}`}>
-                      <Button variant="outline" size="sm">
+                      <Button 
+                        variant="default" 
+                        size="sm"
+                        className="bg-blue-600 hover:bg-blue-700 text-white font-semibold transition-colors"
+                      >
                         Ver Detalles
                       </Button>
                     </Link>
                     <Button
-                      size="sm"
+                      size="icon"
+                      variant="ghost"
                       onClick={() => handleAddToCart(product)}
+                      className="hover:bg-blue-100 transition-colors"
                     >
-                      Agregar
+                      <ShoppingCart className="h-5 w-5" />
                     </Button>
                   </div>
                 </div>

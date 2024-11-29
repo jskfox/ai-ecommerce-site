@@ -6,49 +6,14 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useCart } from '@/context/CartContext';
 import { useToast } from '@/components/ui/use-toast';
-
-// Simulación de datos del producto
-const getProductData = (id: string) => {
-  const products = [
-    {
-      id: '1',
-      name: 'MacBook Pro M2',
-      description: 'La laptop más potente de Apple con el nuevo chip M2',
-      fullDescription: `
-        El nuevo MacBook Pro viene equipado con el revolucionario chip M2 de Apple,
-        ofreciendo un rendimiento excepcional y una eficiencia energética sin precedentes.
-        Características principales:
-        - Pantalla Liquid Retina XDR de 14"
-        - Hasta 20 horas de duración de batería
-        - Neural Engine de 16 núcleos
-        - GPU de 10 núcleos
-        - 16GB de memoria unificada
-      `,
-      price: 1299.99,
-      image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&h=600&fit=crop',
-      specs: [
-        { name: 'Procesador', value: 'Apple M2' },
-        { name: 'RAM', value: '16GB' },
-        { name: 'Almacenamiento', value: '512GB SSD' },
-        { name: 'Pantalla', value: '14 pulgadas Liquid Retina XDR' },
-        { name: 'Sistema Operativo', value: 'macOS Ventura' }
-      ],
-      images: [
-        'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&h=600&fit=crop',
-        'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800&h=600&fit=crop',
-        'https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=800&h=600&fit=crop'
-      ]
-    }
-    // Añadir más productos aquí
-  ];
-
-  return products.find(p => p.id === id) || products[0];
-};
+import { products } from '@/data/products';
 
 export default function ProductPage({ params }: { params: { id: string } }) {
   const { dispatch } = useCart();
   const { toast } = useToast();
-  const product = getProductData(params.id);
+  const product = products.find(p => p.id === params.id);
+  if (!product) return <div>Producto no encontrado</div>;
+
   const [selectedImage, setSelectedImage] = React.useState(product.images[0]);
 
   const handleAddToCart = () => {
