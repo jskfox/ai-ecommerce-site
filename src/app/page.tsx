@@ -8,6 +8,7 @@ import { useCart } from '@/context/CartContext';
 import { useToast } from '@/components/ui/use-toast';
 import { products } from '@/data/products';
 import { ShoppingCart } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -26,16 +27,17 @@ const staggerContainer = {
 export default function Home() {
   const { dispatch } = useCart();
   const { toast } = useToast();
+  const t = useTranslations();
 
   const handleAddToCart = async (product: any, cardElement: HTMLElement) => {
-    // Obtener la posición del carrito
+    // Get cart icon position
     const cartIcon = document.getElementById('cart-icon');
     if (!cartIcon || !cardElement) return;
 
     const cartRect = cartIcon.getBoundingClientRect();
     const cardRect = cardElement.getBoundingClientRect();
 
-    // Crear un clon de la tarjeta para la animación
+    // Create card clone for animation
     const clone = cardElement.cloneNode(true) as HTMLElement;
     clone.style.position = 'fixed';
     clone.style.top = `${cardRect.top}px`;
@@ -48,7 +50,7 @@ export default function Home() {
 
     document.body.appendChild(clone);
 
-    // Animar el clon
+    // Animate clone
     setTimeout(() => {
       clone.style.transform = `
         translate(
@@ -60,12 +62,12 @@ export default function Home() {
       clone.style.opacity = '0';
     }, 0);
 
-    // Eliminar el clon después de la animación
+    // Remove clone after animation
     setTimeout(() => {
       clone.remove();
     }, 500);
 
-    // Agregar al carrito y mostrar toast
+    // Add to cart and show toast
     dispatch({
       type: 'ADD_TO_CART',
       payload: {
@@ -78,12 +80,18 @@ export default function Home() {
     });
     
     toast({
-      title: "Producto agregado",
-      description: `${product.name} se ha agregado al carrito`,
+      title: t('products.addedToCart'),
+      description: t('products.addedToCartDesc', { productName: product.name }),
     });
   };
 
-  const featuredProducts = products.slice(0, 6); // Muestra los primeros 4 productos como destacados
+  const featuredProducts = products.slice(0, 6);
+  const categories = [
+    t('categories.smartphones'),
+    t('categories.laptops'),
+    t('categories.tablets'),
+    t('categories.headphones')
+  ];
 
   return (
     <div className="space-y-8">
@@ -100,6 +108,7 @@ export default function Home() {
           fill
           sizes="100vw"
           className="object-cover"
+          priority
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black to-transparent z-10" />
         <motion.div 
@@ -109,11 +118,11 @@ export default function Home() {
           transition={{ delay: 0.2, duration: 0.8 }}
         >
           <div className="text-white max-w-2xl">
-            <h1 className="text-4xl font-bold mb-4">Las mejores ofertas en tecnología</h1>
-            <p className="text-xl mb-6">Descubre nuestra selección de productos premium a precios increíbles</p>
+            <h1 className="text-4xl font-bold mb-4">{t('hero.title')}</h1>
+            <p className="text-xl mb-6">{t('hero.subtitle')}</p>
             <Link href="/producto">
               <Button size="lg">
-                Ver Productos
+                {t('hero.cta')}
               </Button>
             </Link>
           </div>
@@ -128,7 +137,7 @@ export default function Home() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
         >
-          Categorías Populares
+          {t('categories.title')}
         </motion.h2>
         <motion.div 
           className="grid grid-cols-2 md:grid-cols-4 gap-4"
@@ -136,7 +145,7 @@ export default function Home() {
           initial="initial"
           animate="animate"
         >
-          {['Smartphones', 'Laptops', 'Tablets', 'Auriculares'].map((category) => (
+          {categories.map((category) => (
             <motion.div
               key={category}
               className="bg-gray-100 rounded-lg p-6 text-center hover:bg-gray-200 transition cursor-pointer"
@@ -153,7 +162,7 @@ export default function Home() {
 
       {/* Products Section */}
       <section>
-        <h2 className="text-2xl font-bold mb-6">Productos Destacados</h2>
+        <h2 className="text-2xl font-bold mb-6">{t('products.title')}</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {featuredProducts.map((product) => (
             <motion.div
@@ -190,7 +199,7 @@ export default function Home() {
                         size="sm"
                         className="bg-blue-600 hover:bg-blue-700 text-white font-semibold transition-colors"
                       >
-                        Ver Detalles
+                        {t('products.viewDetails')}
                       </Button>
                     </Link>
                     <Button
@@ -227,24 +236,24 @@ export default function Home() {
           whileHover={{ scale: 1.05 }}
         >
           <div className="text-4xl mb-4">🚚</div>
-          <h3 className="font-semibold mb-2">Envío Gratis</h3>
-          <p className="text-gray-600">En pedidos superiores a $99</p>
+          <h3 className="font-semibold mb-2">{t('features.freeShipping.title')}</h3>
+          <p className="text-gray-600">{t('features.freeShipping.description')}</p>
         </motion.div>
         <motion.div 
           className="text-center"
           whileHover={{ scale: 1.05 }}
         >
           <div className="text-4xl mb-4">⭐</div>
-          <h3 className="font-semibold mb-2">Garantía de Calidad</h3>
-          <p className="text-gray-600">30 días de garantía en todos los productos</p>
+          <h3 className="font-semibold mb-2">{t('features.quality.title')}</h3>
+          <p className="text-gray-600">{t('features.quality.description')}</p>
         </motion.div>
         <motion.div 
           className="text-center"
           whileHover={{ scale: 1.05 }}
         >
           <div className="text-4xl mb-4">💬</div>
-          <h3 className="font-semibold mb-2">Soporte 24/7</h3>
-          <p className="text-gray-600">Asistencia técnica disponible todo el día</p>
+          <h3 className="font-semibold mb-2">{t('features.support.title')}</h3>
+          <p className="text-gray-600">{t('features.support.description')}</p>
         </motion.div>
       </motion.section>
 
@@ -255,8 +264,8 @@ export default function Home() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6 }}
       >
-        <h2 className="text-2xl font-bold mb-4">¡Suscríbete a nuestro Newsletter!</h2>
-        <p className="mb-6">Recibe las últimas ofertas y novedades directamente en tu correo</p>
+        <h2 className="text-2xl font-bold mb-4">{t('newsletter.title')}</h2>
+        <p className="mb-6">{t('newsletter.subtitle')}</p>
         <motion.form 
           className="flex max-w-md mx-auto"
           initial={{ scale: 0.95 }}
@@ -265,7 +274,7 @@ export default function Home() {
         >
           <input
             type="email"
-            placeholder="Tu email"
+            placeholder={t('newsletter.placeholder')}
             className="flex-1 px-4 py-2 rounded-l text-black"
           />
           <motion.button 
@@ -273,7 +282,7 @@ export default function Home() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            Suscribir
+            {t('newsletter.button')}
           </motion.button>
         </motion.form>
       </motion.section>

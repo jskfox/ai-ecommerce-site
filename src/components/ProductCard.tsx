@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 interface Product {
   id: string | number;
@@ -14,6 +15,8 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+  const t = useTranslations();
+  
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
       <div className="relative h-48 bg-accent/20">
@@ -34,6 +37,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <p className="text-secondary-dark font-medium mt-2">
           ${product.price.toFixed(2)}
         </p>
+        <Link href={`/producto/${product.id}`}>
+          <button className="mt-3 w-full bg-primary text-white py-2 rounded hover:bg-primary-dark transition-colors">
+            {t('products.viewDetails')}
+          </button>
+        </Link>
       </div>
     </div>
   );

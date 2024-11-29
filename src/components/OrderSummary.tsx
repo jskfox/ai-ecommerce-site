@@ -4,6 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { useTranslations } from 'next-intl';
 
 interface CartItem {
   id: string | number;
@@ -19,10 +20,12 @@ interface OrderSummaryProps {
 }
 
 export const OrderSummary = ({ items, total }: OrderSummaryProps) => {
+  const t = useTranslations();
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Resumen del Pedido</CardTitle>
+        <CardTitle>{t('checkout.summary.title')}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
@@ -40,12 +43,12 @@ export const OrderSummary = ({ items, total }: OrderSummaryProps) => {
               <div className="flex-1">
                 <h3 className="font-medium">{item.name}</h3>
                 <p className="text-sm text-gray-500">
-                  Cantidad: {item.quantity}
+                  {t('checkout.summary.items')}: {item.quantity}
                 </p>
               </div>
               <div className="text-right">
                 <p className="font-medium">${(item.price * item.quantity).toFixed(2)}</p>
-                <p className="text-sm text-gray-500">${item.price.toFixed(2)} c/u</p>
+                <p className="text-sm text-gray-500">${item.price.toFixed(2)} ea</p>
               </div>
             </div>
           ))}
@@ -54,16 +57,16 @@ export const OrderSummary = ({ items, total }: OrderSummaryProps) => {
 
           <div className="space-y-2">
             <div className="flex justify-between">
-              <span>Subtotal</span>
+              <span>{t('checkout.summary.subtotal')}</span>
               <span>${total.toFixed(2)}</span>
             </div>
             <div className="flex justify-between">
-              <span>Envío</span>
-              <span>Gratis</span>
+              <span>{t('checkout.summary.shipping')}</span>
+              <span>{t('cart.free')}</span>
             </div>
             <Separator className="my-2" />
             <div className="flex justify-between font-medium text-lg">
-              <span>Total</span>
+              <span>{t('checkout.summary.total')}</span>
               <span>${total.toFixed(2)}</span>
             </div>
           </div>

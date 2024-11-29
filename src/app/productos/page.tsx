@@ -4,8 +4,10 @@ import React, { useState } from 'react';
 import { products } from '@/data/products';
 import ProductCard from '@/components/ProductCard';
 import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 
 const ProductsPage = () => {
+  const t = useTranslations();
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage, setProductsPerPage] = useState(10);
   const [sortOrder, setSortOrder] = useState('asc');
@@ -74,9 +76,9 @@ const ProductsPage = () => {
           animate={{ opacity: 1, y: 0 }}
           className="text-3xl font-bold text-primary mb-2"
         >
-          Productos
+          {t('products.title')}
         </motion.h1>
-        <p className="text-gray-600">Explora nuestra colección de productos</p>
+        <p className="text-gray-600">{t('products.explore')}</p>
       </div>
 
       <motion.div 
@@ -86,7 +88,7 @@ const ProductsPage = () => {
       >
         <input
           type="text"
-          placeholder="Buscar productos..."
+          placeholder={t('products.searchPlaceholder')}
           value={filter}
           onChange={handleFilterChange}
           className="w-full md:w-64 border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary/50"
@@ -98,28 +100,28 @@ const ProductsPage = () => {
             onChange={(e) => handleProductsPerPageChange(e.target.value)}
             className="border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary/50"
           >
-            <option value="10">10 por página</option>
-            <option value="20">20 por página</option>
-            <option value="50">50 por página</option>
+            <option value="10">{t('products.perPage', { count: 10 })}</option>
+            <option value="20">{t('products.perPage', { count: 20 })}</option>
+            <option value="50">{t('products.perPage', { count: 50 })}</option>
           </select>
 
-          <select 
-            value={sortOrder} 
+          <select
+            value={sortOrder}
             onChange={(e) => handleSortOrderChange(e.target.value)}
             className="border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary/50"
           >
-            <option value="asc">Precio: Bajo a Alto</option>
-            <option value="desc">Precio: Alto a Bajo</option>
-            <option value="name">Nombre</option>
+            <option value="asc">{t('products.sortPriceLowToHigh')}</option>
+            <option value="desc">{t('products.sortPriceHighToLow')}</option>
+            <option value="name">{t('products.sortByName')}</option>
           </select>
         </div>
       </motion.div>
 
-      <motion.div 
+      <motion.div
         variants={container}
         initial="hidden"
         animate="show"
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
       >
         {currentProducts.map((product) => (
           <motion.div key={product.id} variants={item}>
@@ -128,63 +130,48 @@ const ProductsPage = () => {
         ))}
       </motion.div>
 
+      {/* Pagination */}
       {totalPages > 1 && (
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex justify-center mt-8 gap-2"
-        >
+        <div className="flex justify-center mt-8 space-x-2">
           <button
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className="px-4 py-2 border rounded-lg disabled:opacity-50 hover:bg-primary hover:text-white transition-colors"
+            className="px-4 py-2 rounded-lg bg-gray-100 disabled:opacity-50"
           >
-            Anterior
+            {t('common.previous')}
           </button>
-          
-          {[...Array(totalPages)].map((_, index) => {
-            const pageNumber = index + 1;
-            if (
-              pageNumber === 1 ||
-              pageNumber === totalPages ||
-              (pageNumber >= currentPage - 2 && pageNumber <= currentPage + 2)
-            ) {
-              return (
-                <button
-                  key={index}
-                  onClick={() => handlePageChange(pageNumber)}
-                  className={`px-4 py-2 border rounded-lg transition-colors ${
-                    currentPage === pageNumber ? 'bg-primary text-white' : 'hover:bg-primary/10'
-                  }`}
-                >
-                  {pageNumber}
-                </button>
-              );
-            } else if (
-              pageNumber === currentPage - 3 ||
-              pageNumber === currentPage + 3
-            ) {
-              return <span key={index} className="px-2">...</span>;
-            }
-            return null;
-          })}
-
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <button
+              key={page}
+              onClick={() => handlePageChange(page)}
+              className={`px-4 py-2 rounded-lg ${
+                currentPage === page
+                  ? 'bg-primary text-white'
+                  : 'bg-gray-100 hover:bg-gray-200'
+              }`}
+            >
+              {page}
+            </button>
+          ))}
           <button
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className="px-4 py-2 border rounded-lg disabled:opacity-50 hover:bg-primary hover:text-white transition-colors"
+            className="px-4 py-2 rounded-lg bg-gray-100 disabled:opacity-50"
           >
-            Siguiente
+            {t('common.next')}
           </button>
-        </motion.div>
+        </div>
       )}
-
       <motion.p 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className="text-center mt-4 text-gray-600"
       >
-        Mostrando {indexOfFirstProduct + 1} - {Math.min(indexOfLastProduct, filteredProducts.length)} de {filteredProducts.length} productos
+        {t('common.showing', {
+          start: indexOfFirstProduct + 1,
+          end: Math.min(indexOfLastProduct, filteredProducts.length),
+          total: filteredProducts.length
+        })}
       </motion.p>
     </div>
   );

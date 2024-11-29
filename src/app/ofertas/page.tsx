@@ -1,10 +1,13 @@
 import React from 'react';
+import { useTranslations } from 'next-intl';
 
 const Ofertas: React.FC = () => {
+  const t = useTranslations('offers');
+
   return (
     <div>
-      <h1>Ofertas</h1>
-      <p>Aquí encontrarás las mejores ofertas disponibles.</p>
+      <h1>{t('title')}</h1>
+      <p>{t('description')}</p>
     </div>
   );
 };

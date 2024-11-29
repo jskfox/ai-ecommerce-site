@@ -1,0 +1,217 @@
+{
+  "welcome": "Home",
+  "language": "Language",
+  "english": "English",
+  "spanish": "Spanish",
+  "category": {
+    "filters": {
+      "title": "Filters",
+      "price": "Price",
+      "brand": "Brand",
+      "clear": "Clear filters",
+      "noProducts": "No products found",
+      "tryAdjusting": "Try adjusting your search filters",
+      "priceRanges": {
+        "under500": "Under $500",
+        "500to1000": "$500 - $1000",
+        "over1000": "Over $1000"
+      }
+    },
+    "sort": {
+      "relevance": "Most relevant",
+      "priceLowHigh": "Price: Low to High",
+      "priceHighLow": "Price: High to Low",
+      "nameAZ": "Name: A-Z",
+      "nameZA": "Name: Z-A"
+    },
+    "viewDetails": "View Details"
+  },
+  "cart": {
+    "title": "Cart",
+    "yourCart": "Your Cart",
+    "emptyCart": "Your cart is empty",
+    "whyNotAddProducts": "Why not add some products?",
+    "continueShopping": "Continue Shopping",
+    "clearCart": "Clear Cart",
+    "productRemoved": "Product Removed",
+    "productRemovedDesc": "The product has been removed from your cart",
+    "cartCleared": "Cart Cleared",
+    "cartClearedDesc": "All products have been removed from your cart",
+    "cartEmpty": "Cart Empty",
+    "addProductsBeforeCheckout": "Add products to cart before proceeding to checkout",
+    "total": "Total",
+    "checkout": "Checkout",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "free": "Free",
+    "tax": "Tax",
+    "orderTotal": "Order Total",
+    "proceedToCheckout": "Proceed to Checkout"
+  },
+  "products": {
+    "title": "Products",
+    "explore": "Explore our collection of products",
+    "searchPlaceholder": "Search products...",
+    "perPage": "{count} per page",
+    "sortPriceLowToHigh": "Price: Low to High",
+    "sortPriceHighToLow": "Price: High to Low",
+    "sortByName": "Sort by Name",
+    "viewDetails": "View Details",
+    "addedToCart": "Product added",
+    "addedToCartDesc": "{productName} has been added to cart"
+  },
+  "productDetail": {
+    "notFound": "Product not found",
+    "specifications": "Specifications",
+    "addToCart": "Add to Cart",
+    "buyNow": "Buy Now",
+    "shipping": {
+      "title": "Free Shipping",
+      "estimatedDelivery": "Estimated delivery: 3-5 business days"
+    },
+    "relatedProducts": "Related Products",
+    "toast": {
+      "added": "Product added",
+      "addedDesc": "{productName} has been added to cart"
+    }
+  },
+  "categories": {
+    "title": "Popular Categories",
+    "smartphones": "Smartphones",
+    "laptops": "Laptops",
+    "tablets": "Tablets",
+    "headphones": "Headphones"
+  },
+  "footer": {
+    "aboutUs": {
+      "title": "About Us",
+      "text": "Digilap is your trusted store for tech products."
+    },
+    "quickLinks": {
+      "title": "Quick Links"
+    },
+    "contact": {
+      "title": "Contact",
+      "email": "Email",
+      "phone": "Phone"
+    }
+  },
+  "hero": {
+    "title": "Best Tech Deals",
+    "subtitle": "Discover our selection of premium products at incredible prices",
+    "cta": "View Products"
+  },
+  "common": {
+    "previous": "Previous",
+    "next": "Next",
+    "showing": "Showing {start} - {end} of {total} products"
+  },
+  "features": {
+    "freeShipping": {
+      "title": "Free Shipping",
+      "description": "On orders over $99"
+    },
+    "quality": {
+      "title": "Quality Guarantee",
+      "description": "30-day warranty on all products"
+    },
+    "support": {
+      "title": "24/7 Support",
+      "description": "Technical assistance available all day"
+    }
+  },
+  "newsletter": {
+    "title": "Subscribe to our Newsletter!",
+    "subtitle": "Receive the latest offers and news directly in your email",
+    "placeholder": "Your email",
+    "button": "Subscribe"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "shippingInformation": "Shipping Information",
+    "emptyCart": {
+      "title": "Empty Cart",
+      "message": "There are no items in your cart",
+      "returnToStore": "Return to Store"
+    },
+    "toast": {
+      "success": {
+        "title": "Payment Successful!",
+        "description": "Your order has been processed successfully."
+      },
+      "error": {
+        "title": "Payment Error",
+        "description": "There was a problem processing your payment. Please try again."
+      }
+    },
+    "form": {
+      "firstName": {
+        "label": "First Name",
+        "placeholder": "John",
+        "error": "First name is required"
+      },
+      "lastName": {
+        "label": "Last Name",
+        "placeholder": "Doe",
+        "error": "Last name is required"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "john@example.com",
+        "error": "Please enter a valid email address"
+      },
+      "phone": {
+        "label": "Phone",
+        "placeholder": "123-456-7890",
+        "error": "Please enter a valid phone number"
+      },
+      "address": {
+        "label": "Address",
+        "placeholder": "123 Main Street",
+        "error": "Address is required"
+      },
+      "city": {
+        "label": "City",
+        "placeholder": "New York",
+        "error": "City is required"
+      },
+      "state": {
+        "label": "State/Province",
+        "placeholder": "NY",
+        "error": "State is required"
+      },
+      "zipCode": {
+        "label": "ZIP Code",
+        "placeholder": "12345",
+        "error": "Please enter a valid ZIP code"
+      },
+      "submit": {
+        "processing": "Processing...",
+        "button": "Complete Order"
+      }
+    },
+    "summary": {
+      "title": "Order Summary",
+      "subtotal": "Subtotal",
+      "shipping": "Shipping",
+      "tax": "Tax",
+      "total": "Total",
+      "items": "Items"
+    }
+  },
+  "filters": {
+    "title": "Filters",
+    "price": "Price",
+    "brand": "Brand",
+    "category": "Category",
+    "rating": "Rating"
+  },
+  "offers": {
+    "title": "Offers",
+    "description": "Here you'll find the best available offers."
+  },
+  "support": {
+    "title": "Support",
+    "description": "For assistance, contact us at contact@techstore.com or call (123) 456-7890."
+  }
+}
