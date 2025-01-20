@@ -17,7 +17,7 @@ const Cart: React.FC = () => {
     }
   };
 
-  const removeFromCart = (productId: number) => {
+  const removeFromCart = (productId: number|string) => {
     dispatch({ type: 'REMOVE_FROM_CART', payload: { id: productId } });
   };
 
@@ -67,21 +67,21 @@ const Cart: React.FC = () => {
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
               <button
-                onClick={() => updateQuantity(product.id, product.quantity - 1)}
+                onClick={() => updateQuantity(Number(product.id), Number(product.quantity) - 1)}
                 className="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full hover:bg-gray-200"
               >
                 -
               </button>
               <span className="w-8 text-center">{product.quantity}</span>
               <button
-                onClick={() => updateQuantity(product.id, product.quantity + 1)}
+                onClick={() => updateQuantity(Number(product.id), Number(product.quantity) + 1)}
                 className="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full hover:bg-gray-200"
               >
                 +
               </button>
             </div>
             <button
-              onClick={() => removeFromCart(product.id)}
+              onClick={() => removeFromCart(Number(product.id))}
               className="text-red-500 hover:text-red-700"
             >
               Eliminar

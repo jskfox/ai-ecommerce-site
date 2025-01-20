@@ -197,8 +197,8 @@ export default function Home() {
                       size="icon"
                       variant="ghost"
                       onClick={(e) => {
-                        const target = e.target as Element;
-                        const card = target.closest('.product-card');
+                        const target = e.target as HTMLElement;
+                        const card = target.closest('.product-card') as HTMLElement;
                         if (card) {
                           handleAddToCart(product, card);
                         }

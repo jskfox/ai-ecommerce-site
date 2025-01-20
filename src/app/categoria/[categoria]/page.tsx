@@ -118,7 +118,7 @@ export default function CategoryPage({ params }: { params: { categoria: string }
     const cardRect = cardElement.getBoundingClientRect();
 
     // Crear un clon de la tarjeta para la animación
-    const clone = cardElement.cloneNode(true) as Element;
+    const clone = cardElement.cloneNode(true) as HTMLElement;
     clone.style.position = 'fixed';
     clone.style.top = `${cardRect.top}px`;
     clone.style.left = `${cardRect.left}px`;
