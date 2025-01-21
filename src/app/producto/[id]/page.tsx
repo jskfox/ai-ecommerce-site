@@ -8,13 +8,16 @@ import { useCart } from '@/context/CartContext';
 import { useToast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
 import { products } from '@/data/products';
+import { useTranslations } from 'next-intl';
 
 export default function ProductPage({ params }: { params: { id: string } }) {
   const { dispatch } = useCart();
   const { toast } = useToast();
   const router = useRouter();
+  const t = useTranslations();
+  
   const product = products.find(p => p.id === params.id);
-  if (!product) return <div>Producto no encontrado</div>;
+  if (!product) return <div>{t('productDetail.notFound')}</div>;
 
   const [selectedImage, setSelectedImage] = React.useState(product.images[0]);
 
@@ -31,8 +34,8 @@ export default function ProductPage({ params }: { params: { id: string } }) {
     });
 
     toast({
-      title: "Producto agregado",
-      description: `${product.name} se ha agregado al carrito`,
+      title: t('productDetail.toast.added'),
+      description: t('productDetail.toast.addedDesc', { productName: product.name }),
     });
   };
 
@@ -44,7 +47,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
         transition={{ duration: 1 }}
         className="grid grid-cols-1 md:grid-cols-2 gap-8"
       >
-        {/* Galería de imágenes */}
+        {/* Image gallery */}
         <div className="space-y-4">
           <motion.div
             key={selectedImage}
@@ -87,7 +90,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
           </div>
         </div>
 
-        {/* Información del producto */}
+        {/* Product information */}
         <motion.div
           className="space-y-6"
           initial={{ opacity: 0, x: 20 }}
@@ -103,7 +106,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
 
           <Card>
             <CardHeader>
-              <CardTitle>Especificaciones</CardTitle>
+              <CardTitle>{t('productDetail.specifications')}</CardTitle>
             </CardHeader>
             <CardContent>
               <dl className="space-y-2">
@@ -125,7 +128,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                 onClick={handleAddToCart}
                 className="bg-blue-600 text-white px-4 py-2 rounded-lg flex-1 transition-colors"
               >
-                Añadir al Carrito
+                {t('productDetail.addToCart')}
               </motion.button>
               <motion.button
                 whileHover={{ backgroundColor: '#1c64f2', color: '#ffffff' }}
@@ -135,7 +138,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                 }}
                 className="bg-blue-700 text-white px-4 py-2 rounded-lg flex-1 transition-colors shadow-lg"
               >
-                Comprar Ahora
+                {t('productDetail.buyNow')}
               </motion.button>
             </div>
             
@@ -144,8 +147,8 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                 <div className="flex items-center gap-4">
                   <div className="text-2xl">🚚</div>
                   <div>
-                    <p className="font-medium">Envío Gratis</p>
-                    <p className="text-sm text-gray-600">Entrega estimada: 3-5 días hábiles</p>
+                    <p className="font-medium">{t('productDetail.shipping.title')}</p>
+                    <p className="text-sm text-gray-600">{t('productDetail.shipping.estimatedDelivery')}</p>
                   </div>
                 </div>
               </CardContent>
@@ -154,16 +157,16 @@ export default function ProductPage({ params }: { params: { id: string } }) {
         </motion.div>
       </motion.div>
 
-      {/* Productos relacionados */}
+      {/* Related products */}
       <motion.section
         className="mt-16"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5, duration: 1 }}
       >
-        <h2 className="text-2xl font-bold mb-6">Productos Relacionados</h2>
+        <h2 className="text-2xl font-bold mb-6">{t('productDetail.relatedProducts')}</h2>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {/* Aquí irían los productos relacionados */}
+          {/* Related products will go here */}
         </div>
       </motion.section>
     </div>

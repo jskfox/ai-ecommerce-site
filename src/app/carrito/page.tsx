@@ -1,221 +1,204 @@
 'use client';
 
-import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '@/context/CartContext';
 import { Button } from '@/components/ui/button';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useToast } from '@/components/ui/use-toast';
+import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 
 export default function CartPage() {
   const { state, dispatch } = useCart();
   const { toast } = useToast();
+  const t = useTranslations();
   const router = useRouter();
 
-  const handleUpdateQuantity = (id: string | number, newQuantity: number) => {
-    dispatch({
-      type: 'UPDATE_QUANTITY',
-      payload: { id, quantity: newQuantity }
-    });
-
-    if (newQuantity === 0) {
-      toast({
-        title: "Producto eliminado",
-        description: "El producto ha sido eliminado del carrito",
-      });
-    }
-  };
-
-  const handleRemoveItem = (id: string | number, productName: string) => {
-    dispatch({
-      type: 'REMOVE_FROM_CART',
-      payload: { id }
-    });
-
+  const handleRemoveFromCart = (productId: string) => {
+    dispatch({ type: 'REMOVE_FROM_CART', payload: { id: productId } });
     toast({
-      title: "Producto eliminado",
-      description: `${productName} ha sido eliminado del carrito`,
+      title: t('cart.productRemoved'),
+      description: t('cart.productRemovedDesc'),
     });
   };
 
   const handleClearCart = () => {
     dispatch({ type: 'CLEAR_CART' });
     toast({
-      title: "Carrito vaciado",
-      description: "Se han eliminado todos los productos del carrito",
+      title: t('cart.cartCleared'),
+      description: t('cart.cartClearedDesc'),
     });
   };
 
-  const handleProceedToCheckout = () => {
+  const handleCheckout = () => {
     if (state.items.length === 0) {
       toast({
-        title: "Carrito vacío",
-        description: "Agrega productos al carrito antes de proceder al pago",
+        title: t('cart.cartEmpty'),
+        description: t('cart.addProductsBeforeCheckout'),
         variant: "destructive",
       });
       return;
     }
+    // Navigate to checkout page
     router.push('/checkout');
   };
 
   if (state.items.length === 0) {
     return (
       <div className="container mx-auto px-4 py-16 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+        <div
           className="space-y-6"
         >
-          <h2 className="text-2xl font-bold">Tu carrito está vacío</h2>
-          <p className="text-gray-600">¿Por qué no agregas algunos productos?</p>
+          <h2 className="text-2xl font-bold">{t('cart.emptyCart')}</h2>
+          <p className="text-gray-600">{t('cart.whyNotAddProducts')}</p>
           <Link href="/">
             <Button size="lg">
-              Ir a Comprar
+              {t('cart.continueShopping')}
             </Button>
           </Link>
-        </motion.div>
+        </div>
       </div>
     );
   }
 
+  const subtotal = state.items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const shipping = 0; // Free shipping
+  const tax = subtotal * 0.16; // 16% tax
+  const total = subtotal + shipping + tax;
+
   return (
     <div className="container mx-auto px-4 py-8">
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleCheckout();
+        }}
         className="space-y-8"
       >
         <div className="flex justify-between items-center">
-          <h1 className="text-3xl font-bold">Tu Carrito</h1>
+          <h1 className="text-3xl font-bold">{t('cart.yourCart')}</h1>
           <Button
             variant="outline"
             onClick={handleClearCart}
             className="text-red-600 hover:text-red-700"
           >
-            Vaciar Carrito
+            {t('cart.clearCart')}
           </Button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Lista de productos */}
+          {/* Cart Items */}
           <div className="md:col-span-2 space-y-4">
-            <AnimatePresence>
-              {state.items.map((item) => (
-                <motion.div
-                  key={item.id}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20 }}
-                  className="flex gap-4 bg-white p-4 rounded-lg shadow"
-                >
-                  {/* Imagen del producto */}
-                  <div className="relative w-24 h-24">
-                    <Image
-                      src={item.image}
-                      alt={item.name}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      className="object-cover rounded"
-                    />
-                  </div>
-
-                  {/* Información del producto */}
-                  <div className="flex-grow space-y-2">
-                    <div className="flex justify-between">
-                      <h3 className="font-semibold">{item.name}</h3>
-                      <button
-                        onClick={() => handleRemoveItem(item.id, item.name)}
-                        className="text-red-500 hover:text-red-700"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                      </button>
-                    </div>
-                    <p className="text-gray-600">${item.price}</p>
-                    
-                    {/* Controles de cantidad */}
-                    <div className="flex items-center space-x-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
-                      >
-                        -
-                      </Button>
-                      <span className="w-8 text-center">{item.quantity}</span>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
-                      >
-                        +
-                      </Button>
-                    </div>
-                  </div>
-
-                  {/* Precio total del item */}
-                  <div className="text-right">
-                    <p className="font-semibold">${(item.price * item.quantity).toFixed(2)}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </div>
-
-          {/* Resumen del carrito */}
-          <div className="md:col-span-1">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-white p-6 rounded-lg shadow space-y-4"
-            >
-              <h2 className="text-xl font-bold">Resumen del Pedido</h2>
-              
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span>Subtotal</span>
-                  <span>${state.total.toFixed(2)}</span>
+            {state.items.map((item) => (
+              <div
+                key={item.id}
+                className="flex gap-4 bg-white p-4 rounded-lg shadow"
+              >
+                {/* Product Image */}
+                <div className="relative w-24 h-24">
+                  <Image
+                    src={item.image}
+                    alt={item.name}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover rounded"
+                  />
                 </div>
-                <div className="flex justify-between">
-                  <span>Envío</span>
-                  <span className="text-green-600">Gratis</span>
-                </div>
-                <div className="border-t pt-2 mt-2">
-                  <div className="flex justify-between font-bold">
-                    <span>Total</span>
-                    <span>${state.total.toFixed(2)}</span>
+
+                {/* Product Details */}
+                <div className="flex-grow space-y-2">
+                  <div className="flex justify-between">
+                    <h3 className="font-semibold">{item.name}</h3>
+                    <button
+                      onClick={() => handleRemoveFromCart(item.id)}
+                      className="text-red-500 hover:text-red-700"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </button>
                   </div>
+                  <p className="text-gray-600">${item.price}</p>
+
+                  {/* Quantity Controls */}
+                  <div className="flex items-center space-x-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() =>
+                        dispatch({
+                          type: 'DECREASE_QUANTITY',
+                          payload: { id: item.id },
+                        })
+                      }
+                    >
+                      -
+                    </Button>
+                    <span className="w-8 text-center">{item.quantity}</span>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() =>
+                        dispatch({
+                          type: 'INCREASE_QUANTITY',
+                          payload: { id: item.id },
+                        })
+                      }
+                    >
+                      +
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Item Total */}
+                <div className="text-right">
+                  <p className="font-semibold">
+                    ${(item.price * item.quantity).toFixed(2)}
+                  </p>
                 </div>
               </div>
+            ))}
+          </div>
 
-              <Button 
-                className="w-full" 
-                size="lg"
-                onClick={handleProceedToCheckout}
-              >
-                Proceder al Pago
+          {/* Order Summary */}
+          <div className="md:col-span-1">
+            <div className="bg-white p-6 rounded-lg shadow space-y-4">
+              <h2 className="text-xl font-bold">{t('cart.orderTotal')}</h2>
+              <div className="space-y-2">
+                <div className="flex justify-between">
+                  <span>{t('cart.subtotal')}</span>
+                  <span>${subtotal.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>{t('cart.shipping')}</span>
+                  <span>{t('cart.free')}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>{t('cart.tax')}</span>
+                  <span>${tax.toFixed(2)}</span>
+                </div>
+                <hr />
+                <div className="flex justify-between font-bold">
+                  <span>{t('cart.total')}</span>
+                  <span>${total.toFixed(2)}</span>
+                </div>
+              </div>
+              <Button className="w-full" type="submit">
+                {t('cart.proceedToCheckout')}
               </Button>
-
-              <p className="text-sm text-gray-600 text-center">
-                Envío gratis en todos los pedidos
-              </p>
-            </motion.div>
+            </div>
           </div>
         </div>
-      </motion.div>
+      </form>
     </div>
   );
 }

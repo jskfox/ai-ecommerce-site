@@ -10,31 +10,13 @@ import { useCart } from '@/context/CartContext';
 import { useToast } from '@/components/ui/use-toast';
 import { ShoppingCart } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 
 const priceRanges = {
-  'Menos de $500': (price: number) => price < 500,
-  '$500 - $1000': (price: number) => price >= 500 && price <= 1000,
-  'Más de $1000': (price: number) => price > 1000,
+  'under500': (price: number) => price < 500,
+  '500to1000': (price: number) => price >= 500 && price <= 1000,
+  'over1000': (price: number) => price > 1000,
 };
-
-const filters = [
-  {
-    name: 'Precio',
-    options: Object.keys(priceRanges),
-  },
-  {
-    name: 'Marca',
-    options: ['Apple', 'Samsung', 'Sony', 'Dell', 'LG', 'DJI', 'Bose', 'Google'],
-  },
-];
-
-const sortOptions = [
-  { name: 'Más relevantes', value: 'relevance' },
-  { name: 'Precio: Menor a mayor', value: 'price-asc' },
-  { name: 'Precio: Mayor a menor', value: 'price-desc' },
-  { name: 'Nombre: A-Z', value: 'name-asc' },
-  { name: 'Nombre: Z-A', value: 'name-desc' },
-];
 
 interface FilterState {
   price: string[];
@@ -44,12 +26,34 @@ interface FilterState {
 export default function CategoryPage({ params }: { params: { categoria: string } }) {
   const { dispatch } = useCart();
   const { toast } = useToast();
+  const t = useTranslations('category');
   const [activeFilters, setActiveFilters] = useState<FilterState>({
     price: [],
     brand: [],
   });
   const [sortBy, setSortBy] = useState('relevance');
   const [filteredProducts, setFilteredProducts] = useState(products);
+
+  const filters = [
+    {
+      name: t('filters.price'),
+      options: Object.keys(priceRanges).map(key => t(`filters.priceRanges.${key}`)),
+    },
+    {
+      name: t('filters.brand'),
+      options: ['Apple', 'Samsung', 'Sony', 'Dell', 'LG', 'DJI', 'Bose', 'Google'],
+    },
+  ];
+
+  const sortOptions = [
+    { name: t('sort.relevance'), value: 'relevance' },
+    { name: t('sort.priceLowHigh'), value: 'price-asc' },
+    { name: t('sort.priceHighLow'), value: 'price-desc' },
+    { name: t('sort.nameAZ'), value: 'name-asc' },
+    { name: t('sort.nameZA'), value: 'name-desc' },
+  ];
+
+  const categoryName = params.categoria.charAt(0).toUpperCase() + params.categoria.slice(1);
 
   // Filtrar y ordenar productos
   useEffect(() => {
@@ -164,18 +168,14 @@ export default function CategoryPage({ params }: { params: { categoria: string }
     });
   };
 
-  const categoryName = params.categoria.charAt(0).toUpperCase() + params.categoria.slice(1);
-
   return (
     <div className="flex flex-col space-y-8">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold">{categoryName}</h1>
+        <h1 className="text-2xl font-bold">{categoryName}</h1>
+        
         <div className="flex items-center space-x-4">
-          <span className="text-sm text-gray-600">
-            {filteredProducts.length} productos encontrados
-          </span>
-          <select 
-            className="border rounded-md p-2"
+          <select
+            className="border rounded-lg px-4 py-2 bg-white"
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
           >
@@ -191,39 +191,38 @@ export default function CategoryPage({ params }: { params: { categoria: string }
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {/* Sidebar with filters */}
         <div className="space-y-6 bg-white p-6 rounded-xl shadow-sm">
-          <h2 className="font-bold text-lg mb-4">Filtros</h2>
+          <h2 className="font-bold text-lg mb-4">{t('filters.title')}</h2>
           {filters.map((filter) => (
             <div key={filter.name} className="space-y-3">
               <h3 className="font-semibold">{filter.name}</h3>
               <div className="space-y-2">
                 {filter.options.map((option) => {
-                  const filterType = filter.name === 'Precio' ? 'price' : 'brand';
+                  const filterType = filter.name === t('filters.price') ? 'price' : 'brand';
                   const isChecked = activeFilters[filterType as keyof FilterState].includes(option);
                   
                   return (
-                    <label key={option} className="flex items-center space-x-2 cursor-pointer">
-                      <input 
-                        type="checkbox" 
-                        className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    <label key={option} className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
                         checked={isChecked}
-                        onChange={() => handleFilterChange(filterType as keyof FilterState, option)}
+                        onChange={() => handleFilterChange(filterType, option)}
+                        className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                       />
-                      <span className={`${isChecked ? 'text-blue-600' : 'text-gray-600'}`}>
-                        {option}
-                      </span>
+                      <span className="text-sm text-gray-600">{option}</span>
                     </label>
                   );
                 })}
               </div>
             </div>
           ))}
+
           {(activeFilters.price.length > 0 || activeFilters.brand.length > 0) && (
             <Button
               variant="outline"
               className="w-full mt-4"
               onClick={() => setActiveFilters({ price: [], brand: [] })}
             >
-              Limpiar filtros
+              {t('filters.clear')}
             </Button>
           )}
         </div>
@@ -232,8 +231,8 @@ export default function CategoryPage({ params }: { params: { categoria: string }
         <div className="md:col-span-3">
           {filteredProducts.length === 0 ? (
             <div className="text-center py-12">
-              <h3 className="text-lg font-semibold text-gray-900">No se encontraron productos</h3>
-              <p className="mt-2 text-gray-500">Intenta ajustar los filtros de búsqueda</p>
+              <h3 className="text-lg font-semibold text-gray-900">{t('filters.noProducts')}</h3>
+              <p className="mt-2 text-gray-500">{t('filters.tryAdjusting')}</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -267,7 +266,7 @@ export default function CategoryPage({ params }: { params: { categoria: string }
                             size="sm"
                             className="bg-blue-600 hover:bg-blue-700 text-white font-semibold transition-colors"
                           >
-                            Ver Detalles
+                            {t('viewDetails')}
                           </Button>
                         </Link>
                         <Button

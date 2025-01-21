@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from 'next-intl';
 import {
   Form,
   FormControl,
@@ -15,25 +16,27 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-const checkoutSchema = z.object({
-  firstName: z.string().min(2, 'El nombre es requerido'),
-  lastName: z.string().min(2, 'El apellido es requerido'),
-  email: z.string().email('Email inválido'),
-  phone: z.string().min(10, 'Teléfono inválido'),
-  address: z.string().min(5, 'La dirección es requerida'),
-  city: z.string().min(2, 'La ciudad es requerida'),
-  state: z.string().min(2, 'El estado es requerido'),
-  zipCode: z.string().min(5, 'Código postal inválido'),
+const createCheckoutSchema = (t: any) => z.object({
+  firstName: z.string().min(2, t('checkout.form.firstName.error')),
+  lastName: z.string().min(2, t('checkout.form.lastName.error')),
+  email: z.string().email(t('checkout.form.email.error')),
+  phone: z.string().min(10, t('checkout.form.phone.error')),
+  address: z.string().min(5, t('checkout.form.address.error')),
+  city: z.string().min(2, t('checkout.form.city.error')),
+  state: z.string().min(2, t('checkout.form.state.error')),
+  zipCode: z.string().min(5, t('checkout.form.zipCode.error')),
 });
 
-type CheckoutFormData = z.infer<typeof checkoutSchema>;
-
 interface CheckoutFormProps {
-  onSubmit: (data: CheckoutFormData) => void;
+  onSubmit: (data: any) => void;
   isProcessing: boolean;
 }
 
 export const CheckoutForm = ({ onSubmit, isProcessing }: CheckoutFormProps) => {
+  const t = useTranslations();
+  const checkoutSchema = createCheckoutSchema(t);
+  type CheckoutFormData = z.infer<typeof checkoutSchema>;
+
   const form = useForm<CheckoutFormData>({
     resolver: zodResolver(checkoutSchema),
     defaultValues: {
@@ -62,9 +65,9 @@ export const CheckoutForm = ({ onSubmit, isProcessing }: CheckoutFormProps) => {
             name="firstName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Nombre</FormLabel>
+                <FormLabel>{t('checkout.form.firstName.label')}</FormLabel>
                 <FormControl>
-                  <Input placeholder="John" {...field} />
+                  <Input placeholder={t('checkout.form.firstName.placeholder')} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -76,9 +79,9 @@ export const CheckoutForm = ({ onSubmit, isProcessing }: CheckoutFormProps) => {
             name="lastName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Apellido</FormLabel>
+                <FormLabel>{t('checkout.form.lastName.label')}</FormLabel>
                 <FormControl>
-                  <Input placeholder="Doe" {...field} />
+                  <Input placeholder={t('checkout.form.lastName.placeholder')} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -91,9 +94,9 @@ export const CheckoutForm = ({ onSubmit, isProcessing }: CheckoutFormProps) => {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>{t('checkout.form.email.label')}</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="john@example.com" {...field} />
+                <Input type="email" placeholder={t('checkout.form.email.placeholder')} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -105,9 +108,9 @@ export const CheckoutForm = ({ onSubmit, isProcessing }: CheckoutFormProps) => {
           name="phone"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Teléfono</FormLabel>
+              <FormLabel>{t('checkout.form.phone.label')}</FormLabel>
               <FormControl>
-                <Input type="tel" placeholder="1234567890" {...field} />
+                <Input type="tel" placeholder={t('checkout.form.phone.placeholder')} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -119,9 +122,9 @@ export const CheckoutForm = ({ onSubmit, isProcessing }: CheckoutFormProps) => {
           name="address"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Dirección</FormLabel>
+              <FormLabel>{t('checkout.form.address.label')}</FormLabel>
               <FormControl>
-                <Input placeholder="Calle y número" {...field} />
+                <Input placeholder={t('checkout.form.address.placeholder')} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -134,9 +137,9 @@ export const CheckoutForm = ({ onSubmit, isProcessing }: CheckoutFormProps) => {
             name="city"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Ciudad</FormLabel>
+                <FormLabel>{t('checkout.form.city.label')}</FormLabel>
                 <FormControl>
-                  <Input placeholder="Ciudad" {...field} />
+                  <Input placeholder={t('checkout.form.city.placeholder')} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -148,9 +151,9 @@ export const CheckoutForm = ({ onSubmit, isProcessing }: CheckoutFormProps) => {
             name="state"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Estado</FormLabel>
+                <FormLabel>{t('checkout.form.state.label')}</FormLabel>
                 <FormControl>
-                  <Input placeholder="Estado" {...field} />
+                  <Input placeholder={t('checkout.form.state.placeholder')} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -162,9 +165,9 @@ export const CheckoutForm = ({ onSubmit, isProcessing }: CheckoutFormProps) => {
             name="zipCode"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Código Postal</FormLabel>
+                <FormLabel>{t('checkout.form.zipCode.label')}</FormLabel>
                 <FormControl>
-                  <Input placeholder="12345" {...field} />
+                  <Input placeholder={t('checkout.form.zipCode.placeholder')} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -177,7 +180,7 @@ export const CheckoutForm = ({ onSubmit, isProcessing }: CheckoutFormProps) => {
           className="w-full"
           disabled={isProcessing}
         >
-          {isProcessing ? 'Procesando...' : 'Proceder al Pago'}
+          {isProcessing ? t('checkout.form.submit.processing') : t('checkout.form.submit.button')}
         </Button>
       </form>
     </Form>

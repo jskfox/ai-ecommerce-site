@@ -16,6 +16,7 @@ Este proyecto es un sitio de comercio electrónico básico desarrollado íntegra
 - **Búsqueda de Productos**: La inteligencia artificial ayuda a los usuarios a encontrar productos de manera eficiente.
 - **Carrito de Compras**: Los usuarios pueden agregar y eliminar productos del carrito de compras.
 - **Checkout**: Los usuarios pueden completar el proceso de compra con facilidad.   
+- **Soporte Multilingüe**: El sitio ahora soporta ambas lenguas: inglés y español, utilizando `next-intl` para la internacionalización sin problemas.
 
 ## Ayudas de IA
 

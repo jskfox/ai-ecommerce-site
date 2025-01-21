@@ -1,10 +1,13 @@
 import React from 'react';
+import { useTranslations } from 'next-intl';
 
 const Soporte: React.FC = () => {
+  const t = useTranslations('support');
+
   return (
     <div>
-      <h1>Soporte</h1>
-      <p>Para asistencia, contáctanos en contacto@techstore.com o llama al (123) 456-7890.</p>
+      <h1>{t('title')}</h1>
+      <p>{t('description')}</p>
     </div>
   );
 };

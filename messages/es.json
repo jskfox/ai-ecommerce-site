@@ -1,0 +1,217 @@
+{
+  "welcome": "Inicio",
+  "language": "Idioma",
+  "english": "Inglés",
+  "spanish": "Español",
+  "category": {
+    "filters": {
+      "title": "Filtros",
+      "price": "Precio",
+      "brand": "Marca",
+      "clear": "Limpiar filtros",
+      "noProducts": "No se encontraron productos",
+      "tryAdjusting": "Intenta ajustar los filtros de búsqueda",
+      "priceRanges": {
+        "under500": "Menos de $500",
+        "500to1000": "$500 - $1000",
+        "over1000": "Más de $1000"
+      }
+    },
+    "sort": {
+      "relevance": "Más relevantes",
+      "priceLowHigh": "Precio: Menor a mayor",
+      "priceHighLow": "Precio: Mayor a menor",
+      "nameAZ": "Nombre: A-Z",
+      "nameZA": "Nombre: Z-A"
+    },
+    "viewDetails": "Ver Detalles"
+  },
+  "cart": {
+    "title": "Carrito",
+    "yourCart": "Tu Carrito",
+    "emptyCart": "Tu carrito está vacío",
+    "whyNotAddProducts": "¿Por qué no agregar algunos productos?",
+    "continueShopping": "Continuar Comprando",
+    "clearCart": "Vaciar Carrito",
+    "productRemoved": "Producto Eliminado",
+    "productRemovedDesc": "El producto ha sido eliminado del carrito",
+    "cartCleared": "Carrito Vaciado",
+    "cartClearedDesc": "Todos los productos han sido eliminados del carrito",
+    "cartEmpty": "Carrito Vacío",
+    "addProductsBeforeCheckout": "Agrega productos al carrito antes de proceder al pago",
+    "total": "Total",
+    "checkout": "Pagar",
+    "subtotal": "Subtotal",
+    "shipping": "Envío",
+    "free": "Gratis",
+    "tax": "Impuesto",
+    "orderTotal": "Total del Pedido",
+    "proceedToCheckout": "Proceder al Pago"
+  },
+  "products": {
+    "title": "Productos",
+    "explore": "Explora nuestra colección de productos",
+    "searchPlaceholder": "Buscar productos...",
+    "perPage": "{count} por página",
+    "sortPriceLowToHigh": "Precio: Menor a mayor",
+    "sortPriceHighToLow": "Precio: Mayor a menor",
+    "sortByName": "Ordenar por nombre",
+    "viewDetails": "Ver Detalles",
+    "addedToCart": "Producto agregado",
+    "addedToCartDesc": "{productName} ha sido agregado al carrito"
+  },
+  "productDetail": {
+    "notFound": "Producto no encontrado",
+    "specifications": "Especificaciones",
+    "addToCart": "Añadir al Carrito",
+    "buyNow": "Comprar Ahora",
+    "shipping": {
+      "title": "Envío Gratis",
+      "estimatedDelivery": "Entrega estimada: 3-5 días hábiles"
+    },
+    "relatedProducts": "Productos Relacionados",
+    "toast": {
+      "added": "Producto agregado",
+      "addedDesc": "{productName} se ha agregado al carrito"
+    }
+  },
+  "categories": {
+    "title": "Categorías Populares",
+    "smartphones": "Teléfonos Inteligentes",
+    "laptops": "Portátiles",
+    "tablets": "Tabletas",
+    "headphones": "Auriculares"
+  },
+  "footer": {
+    "aboutUs": {
+      "title": "Sobre Nosotros",
+      "text": "Digilap es tu tienda de confianza para productos tecnológicos."
+    },
+    "quickLinks": {
+      "title": "Enlaces Rápidos"
+    },
+    "contact": {
+      "title": "Contacto",
+      "email": "Correo Electrónico",
+      "phone": "Teléfono"
+    }
+  },
+  "checkout": {
+    "title": "Finalizar Compra",
+    "shippingInformation": "Información de Envío",
+    "emptyCart": {
+      "title": "Carrito Vacío",
+      "message": "No hay productos en tu carrito",
+      "returnToStore": "Volver a la tienda"
+    },
+    "toast": {
+      "success": {
+        "title": "¡Pago exitoso!",
+        "description": "Tu pedido ha sido procesado correctamente."
+      },
+      "error": {
+        "title": "Error en el pago",
+        "description": "Hubo un problema al procesar tu pago. Por favor, intenta nuevamente."
+      }
+    },
+    "form": {
+      "firstName": {
+        "label": "Nombre",
+        "placeholder": "Juan",
+        "error": "El nombre es requerido"
+      },
+      "lastName": {
+        "label": "Apellido",
+        "placeholder": "Pérez",
+        "error": "El apellido es requerido"
+      },
+      "email": {
+        "label": "Correo electrónico",
+        "placeholder": "juan@ejemplo.com",
+        "error": "Por favor, ingresa un correo electrónico válido"
+      },
+      "phone": {
+        "label": "Teléfono",
+        "placeholder": "123-456-7890",
+        "error": "Por favor, ingresa un número de teléfono válido"
+      },
+      "address": {
+        "label": "Dirección",
+        "placeholder": "Calle Principal 123",
+        "error": "La dirección es requerida"
+      },
+      "city": {
+        "label": "Ciudad",
+        "placeholder": "Ciudad de México",
+        "error": "La ciudad es requerida"
+      },
+      "state": {
+        "label": "Estado/Provincia",
+        "placeholder": "CDMX",
+        "error": "El estado es requerido"
+      },
+      "zipCode": {
+        "label": "Código Postal",
+        "placeholder": "12345",
+        "error": "Por favor, ingresa un código postal válido"
+      },
+      "submit": {
+        "processing": "Procesando...",
+        "button": "Completar Pedido"
+      }
+    },
+    "summary": {
+      "title": "Resumen del Pedido",
+      "subtotal": "Subtotal",
+      "shipping": "Envío",
+      "tax": "Impuestos",
+      "total": "Total",
+      "items": "Productos"
+    }
+  },
+  "hero": {
+    "title": "Las mejores ofertas en tecnología",
+    "subtitle": "Descubre nuestra selección de productos premium a precios increíbles",
+    "cta": "Ver Productos"
+  },
+  "common": {
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "showing": "Mostrando {start} - {end} de {total} productos"
+  },
+  "features": {
+    "freeShipping": {
+      "title": "Envío Gratis",
+      "description": "En pedidos superiores a $99"
+    },
+    "quality": {
+      "title": "Garantía de Calidad",
+      "description": "30 días de garantía en todos los productos"
+    },
+    "support": {
+      "title": "Soporte 24/7",
+      "description": "Asistencia técnica disponible todo el día"
+    }
+  },
+  "newsletter": {
+    "title": "¡Suscríbete a nuestro Newsletter!",
+    "subtitle": "Recibe las últimas ofertas y novedades directamente en tu correo",
+    "placeholder": "Tu email",
+    "button": "Suscribir"
+  },
+  "filters": {
+    "title": "Filtros",
+    "price": "Precio",
+    "brand": "Marca",
+    "category": "Categoría",
+    "rating": "Calificación"
+  },
+  "offers": {
+    "title": "Ofertas",
+    "description": "Aquí encontrarás las mejores ofertas disponibles."
+  },
+  "support": {
+    "title": "Soporte",
+    "description": "Para asistencia, contáctanos en contacto@techstore.com o llama al (123) 456-7890."
+  }
+}
