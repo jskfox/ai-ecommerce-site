@@ -14,7 +14,7 @@ export default function CartPage() {
   const t = useTranslations();
   const router = useRouter();
 
-  const handleRemoveFromCart = (productId: string) => {
+  const handleRemoveFromCart = (productId: string|number) => {
     dispatch({ type: 'REMOVE_FROM_CART', payload: { id: productId } });
     toast({
       title: t('cart.productRemoved'),
@@ -137,7 +137,7 @@ export default function CartPage() {
                       onClick={() =>
                         dispatch({
                           type: 'DECREASE_QUANTITY',
-                          payload: { id: item.id },
+                          payload: { id: item.id, quantity: item.quantity },
                         })
                       }
                     >
@@ -149,8 +149,8 @@ export default function CartPage() {
                       size="sm"
                       onClick={() =>
                         dispatch({
-                          type: 'INCREASE_QUANTITY',
-                          payload: { id: item.id },
+                          type: 'UPDATE_QUANTITY',
+                          payload: { id: item.id, quantity: item.quantity + 1 },
                         })
                       }
                     >

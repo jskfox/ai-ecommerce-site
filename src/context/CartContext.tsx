@@ -25,6 +25,7 @@ type CartAction =
   | { type: 'ADD_TO_CART'; payload: Product }
   | { type: 'REMOVE_FROM_CART'; payload: { id: string | number } }
   | { type: 'UPDATE_QUANTITY'; payload: { id: string | number; quantity: number } }
+  | { type: 'DECREASE_QUANTITY'; payload: { id: string | number; quantity: number } }  
   | { type: 'CLEAR_CART' }
   | { type: 'LOAD_CART'; payload: CartState };
 
